@@ -6,15 +6,31 @@ export default function Test(){
 
 const [prompt, setPrompt] = useState("");
 const [response, setResponse] = useState("");
+const [loading, setLoading] = useState(false);
 
-const handleInput = async () => {
-    if (prompt == ""){
-        setResponse("Enter a prompt to continue.");
-    } else {
-        setResponse(prompt)
-    }
+  const handleAsk = async () => {
+    if (!prompt) return;
+    setLoading(true);
+    setResponse("");
 
-};
+    try {
+      const res = await fetch(`https://localhost:5000/ask`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+        const data = await res.json();
+        setResponse(data.answer || data.error || "No response");
+      } catch (err) {
+        console.log(err)
+        setResponse("Error connecting to server");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     return (
         <div
@@ -31,9 +47,12 @@ const handleInput = async () => {
             className="w-1/2 h-[10rem] border-1 bg-gray-200/90 text-black rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
           />
           <button
-            onClick={handleInput}
-            className="w-1/2 px-5 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 font-bold transition-colors">Submit
+            onClick={handleAsk}
+            className="w-1/2 px-5 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 font-bold transition-colors">{loading ? "Loading..." : "Submit"}
           </button>
+          {response && (
+            <div>{response}</div>
+          )}
         </div>
       </div>
     </div>

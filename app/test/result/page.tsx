@@ -23,7 +23,7 @@ const handleInput = async () => {
     >
       <div className="bg-black/90 h-screen flex items-center justify-center">
         <textarea
-            placeholder="some information: victor wembanyama of the San Antonio Spurs led the lead in blocks in the 2024/2025 season. It's worth noting that he missed half the season."
+            placeholder="some information/response: Victor Wembanyama of the San Antonio Spurs led the lead the league in blocks in the 2024/2025 season. It's worth noting that he missed half the season."
             className="w-1/2 h-[10rem] border-1 bg-gray-200/90 text-black rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
           />
       </div>
